@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 
 class ProductController extends Controller
@@ -17,8 +18,17 @@ class ProductController extends Controller
 
     public function show(string $sku)
     {
+
+        $cacheKey = "product:{$sku}";
+
+        $product = Cache::remember($cacheKey, now()->addMinutes(30), function () use ($sku) {
+            return Product::where('sku', '=', $sku)->firstOrFail();
+        });
+
+        $product->load('stocks');
+
         return Inertia::render('Products/Show', [
-            'product' => Product::with('stocks')->where('sku', '=', $sku)->firstOrFail()
+            'product' => $product
         ]);
     }
 }
