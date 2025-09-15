@@ -1,6 +1,26 @@
 import { InertiaLinkProps } from '@inertiajs/vue3';
 import type { LucideIcon } from 'lucide-vue-next';
 
+interface Stock {
+    sku: string;
+    stock: number;
+    city: string;
+}
+export interface Product {
+    sku: string;
+    description: string;
+    size: string;
+    photo: string;
+    stocks?: Stock[];
+    tags: Record<'title', string>[]
+    updated_at: Date;
+}
+
+export interface Tags {
+    title: string;
+    count: number;
+}
+
 export interface Auth {
     user: User;
 }
