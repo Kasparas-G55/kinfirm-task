@@ -9,12 +9,10 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
-const props = defineProps({
+defineProps({
     product: Object as PropType<Product>,
     related: Array<Product>
 })
-
-console.log(props.related)
 </script>
 
 <template>
@@ -22,7 +20,7 @@ console.log(props.related)
     <Link class="relative top-4 left-4 text-current/75" :href="index()">Back to Products</Link>
     <div class="flex flex-col items-center my-10">
         <h1 class="text-3xl mb-6 font-medium">{{ product?.sku }}</h1>
-        <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-4 w-md">
             <div class="flex gap-4">
                 <div class="max-w-3xs max-h-64 aspect-fit">
                     <img class="object-cover rounded-md w-full h-full" :src="product?.photo" :alt="product?.description">
