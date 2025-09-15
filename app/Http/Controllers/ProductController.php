@@ -12,7 +12,7 @@ class ProductController extends Controller
     {
         return Inertia::render('Products/Index', [
             'products' => Product::get(),
-            'tags' => Product::tags()
+            'tags' => Product::productPopularTags()
         ]);
     }
 
@@ -28,7 +28,8 @@ class ProductController extends Controller
         $product->load('stocks');
 
         return Inertia::render('Products/Show', [
-            'product' => $product
+            'product' => $product,
+            'related' => Product::relatedProducts($sku)
         ]);
     }
 }

@@ -54,7 +54,7 @@ class Product extends Model
         return $this->hasMany(Stock::class, 'sku', 'sku');
     }
 
-    public static function tags() {
+    public static function productPopularTags() {
         return DB::select("
             SELECT title, COUNT(*) as count
             FROM (
@@ -65,6 +65,18 @@ class Product extends Model
             GROUP BY title
             ORDER BY count DESC
         ");
+    }
+
+    public static function relatedProducts(string $sku) {
+        return DB::select("
+            SELECT DISTINCT p2.photo, p2.sku
+            FROM products p1
+            JOIN json_each(p1.tags) AS tag1
+            JOIN products p2
+            JOIN json_each(p2.tags) AS tag2
+                ON tag1.value = tag2.value
+            WHERE p1.sku = ? AND p2.product_id != p1.product_id
+        ", [$sku]);
     }
 
     public $timestamps = false;
