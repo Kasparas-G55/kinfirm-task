@@ -2,9 +2,18 @@
 
 use App\Http\Controllers\ProductController;
 use App\Models\Product;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia;
 
-uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
+use function Pest\Laravel\actingAs;
+
+uses(RefreshDatabase::class);
+
+beforeEach(function () {
+    $user = User::factory()->createOne();
+    actingAs($user);
+});
 
 test('products screen can be rendered', function () {
     $response = $this->get(route('product.index'));
